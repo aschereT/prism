@@ -83,7 +83,7 @@ jobs:
       
       - name: downcase REPO
         run: |
-          echo "GHCR_IMAGE=${{ env.GHCR_IMAGE }}" >> "${GITHUB_ENV}"
+          echo "GHCR_IMAGE=$(echo ${{ env.GHCR_IMAGE }} | tr '[:upper:]' '[:lower:]')" >> "${GITHUB_ENV}"
 
       - name: Docker meta default
         # This step generates metadata for the Docker image.
