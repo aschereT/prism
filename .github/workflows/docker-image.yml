@@ -7,11 +7,9 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
       - master
-    paths:
-      - 'Dockerfile'
-      - '.github/workflows/multi-build.yaml'
+  # release:
+  #   types: [published]
 env:
   # The name of the Docker image to be built and pushed to GHCR
   # The image name is derived from the GitHub repository name and the GitHub Container Registry (GHCR) URL.
