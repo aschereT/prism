@@ -27,7 +27,7 @@ RUN mkdir -p /usr/src/prism/packages/http-server/node_modules
 COPY packages/cli/package.json /usr/src/prism/packages/cli/
 RUN mkdir -p /usr/src/prism/packages/cli/node_modules
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 RUN yarn --production
 
 RUN if [ $(uname -m) != "aarch64" ]; then curl -sfL https://gobinaries.com/tj/node-prune | bash; fi
@@ -41,7 +41,7 @@ RUN apk add --no-cache tini
 
 WORKDIR /usr/src/prism
 ARG BUILD_TYPE=development
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 COPY package.json /usr/src/prism/
 COPY packages/core/package.json /usr/src/prism/packages/core/
