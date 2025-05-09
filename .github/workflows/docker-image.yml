@@ -14,7 +14,7 @@ env:
   # The name of the Docker image to be built and pushed to GHCR
   # The image name is derived from the GitHub repository name and the GitHub Container Registry (GHCR) URL.
   # The image name will be in the format: ghcr.io/<owner>/<repo>
-  GHCR_IMAGE: ghcr.io/${{ github.repository }}
+  GHCR_IMAGE: ghcr.io/ascheret/prism
 
 permissions:
   # Global permissions for the workflow, which can be overridden at the job level
@@ -80,10 +80,6 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         # This step checks out the code from the repository.
         # It uses the actions/checkout action to clone the repository into the runner's workspace.
-      
-      - name: downcase REPO
-        run: |
-          echo "GHCR_IMAGE=$(echo ${{ env.GHCR_IMAGE }} | tr '[:upper:]' '[:lower:]')" >> "${GITHUB_ENV}"
 
       - name: Docker meta default
         # This step generates metadata for the Docker image.
@@ -214,8 +210,9 @@ jobs:
           annotations: |
             type=org.opencontainers.image.description,value=${{ github.event.repository.description || 'No description provided' }}
           tags: |
-            type=raw,value=main,enable=${{ github.ref_name == 'main' }}
-            type=raw,value=latest,enable=${{ github.ref_name == 'main' }}
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3.10.0
